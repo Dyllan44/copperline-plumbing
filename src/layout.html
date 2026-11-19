@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="$description">
+  <meta name="theme-color" content="#0c203a">
+  <link rel="icon" href="/images/brand-mark.svg" type="image/svg+xml">
+  <script>
+    // Opt in to scroll reveals before first paint. Falls back to static content if motion.js never starts.
+    (function (root) {
+      if (!window.matchMedia || !matchMedia("(prefers-reduced-motion: no-preference)").matches || !("IntersectionObserver" in window)) return;
+      root.classList.add("motion");
+      setTimeout(function () { if (!root.hasAttribute("data-motion-ready")) root.classList.remove("motion"); }, 3000);
+    })(document.documentElement);
+
+    // Page transitions: if the previous page asked for a photo morph to this page, name this banner to receive it.
+    // Must run before first render, so it lives here rather than in a deferred script.
+    addEventListener("pagereveal", function (event) {
+      var root = document.documentElement, target = null;
+      // A skipped or aborted transition is harmless; mark it handled so it isn't logged as an error.
+      if (event.viewTransition) {
+        ["ready", "finished", "updateCallbackDone"].forEach(function (key) { event.viewTransition[key].catch(function () {}); });
+        root.classList.add("vt-arrived");
+      }
+      try { target = sessionStorage.getItem("copperline-morph"); sessionStorage.removeItem("copperline-morph"); } catch (error) {}
+      if (!event.viewTransition || target !== location.pathname) return;
+      root.classList.add("vt-morph", "vt-morphed");
+      var clear = function () { root.classList.remove("vt-morph"); };
+      event.viewTransition.finished.then(clear, clear);
+    });
+  </script>
+  $styles
+  $scripts
+  <title>$title | Copperline Plumbing</title>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="Copperline Plumbing home">
+        <img src="/images/brand-mark.svg" width="42" height="42" alt="">
+        <span>Copperline<small>PLUMBING</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false" hidden>
+        Menu <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        $navigation
+      </nav>
+      <a class="button header-cta" href="/contact/#enquiry">Enquire</a>
+    </div>
+    <span class="scroll-progress" aria-hidden="true"></span>
+  </header>
+
+  <main id="main" tabindex="-1">
+    $breadcrumb
+    $body
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <a class="brand" href="/" aria-label="Copperline Plumbing home">
+        <img src="/images/brand-mark.svg" width="42" height="42" alt="">
+        <span>Copperline<small>PLUMBING</small></span>
+      </a>
+      <nav aria-label="Footer navigation">
+        $footer_navigation
+      </nav>
+    </div>
+    <div class="shell footer-note">031 · Copperline Plumbing · Fictional website concept</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,77 @@
+.form-card {
+  padding: clamp(1.2rem, 3vw, 2rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink);
+}
+.form-card h3 { font-size: 1.5rem; }
+#demo-note {
+  margin-block: .75rem 1.15rem;
+  padding: .7rem .85rem;
+  border-radius: .45rem;
+  background: var(--ice);
+  color: #28465d;
+  font-size: .9375rem;
+}
+.form-card noscript p { margin-block-end: .75rem; }
+.form-card fieldset { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+.field { display: flex; flex-direction: column; gap: .32rem; min-width: 0; font-weight: 650; }
+.full-width { grid-column: 1 / -1; }
+.field :is(input, select, textarea) {
+  width: 100%;
+  min-height: 2.85rem;
+  padding: .55rem .68rem;
+  border: 1px solid #7e96a9;
+  border-radius: .38rem;
+  background-color: #fcfdff;
+  color: var(--ink);
+  font-weight: 400;
+}
+.field select {
+  appearance: none;
+  padding-inline-end: 1.8rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2310243e' stroke-width='1.6'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .6rem center;
+  background-size: 1rem;
+}
+.field textarea { resize: vertical; }
+.field-hint { color: var(--muted); font-size: .875rem; font-weight: 400; }
+.form-card .button { margin-block-start: 1rem; }
+.form-result:not(:empty) { margin-block-start: .85rem; padding: .75rem .85rem; border: 1px solid #aac7da; border-radius: .45rem; background: var(--ice); }
+
+.photo-field {
+  min-width: 0;
+  padding: .85rem;
+  border: 1px dashed #7e96a9;
+  border-radius: .5rem;
+  background: #f5faff;
+}
+.photo-field label { display: block; margin-block-end: .45rem; font-weight: 700; }
+.photo-field input { width: 100%; max-width: 100%; margin-block-end: .45rem; border-radius: .25rem; font-size: .95rem; }
+.photo-field input::file-selector-button {
+  min-height: 2.75rem;
+  margin-inline-end: .6rem;
+  padding: .45rem .65rem;
+  border: 1px solid #af6948;
+  border-radius: .4rem;
+  background: #fff3e9;
+  color: var(--copper-dark);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.photo-field input::file-selector-button:hover { background: var(--copper-dark); color: var(--white); }
+.photo-field .clear-photos { width: fit-content; margin-block-start: .55rem; }
+.photo-list { margin-block-start: .55rem; padding-inline-start: 1.3rem; overflow-wrap: anywhere; }
+.photo-feedback:not(:empty) { margin-block-start: .5rem; color: var(--muted); font-size: .9rem; }
+.photo-feedback[data-error] { color: #912907; font-weight: 700; }
+.consent { display: flex; align-items: start; gap: .65rem; padding-block: .4rem; }
+.consent input { width: 1.2rem; height: 1.2rem; flex: none; margin: .13rem 0 0; accent-color: var(--copper-dark); }
+
+@media (max-width: 519px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-card .button { width: 100%; }
+}

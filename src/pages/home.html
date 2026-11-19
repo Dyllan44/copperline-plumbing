@@ -1,0 +1,114 @@
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-media">
+    <img src="/images/hero-plumber-1200.jpg"
+      srcset="/images/hero-plumber-720.jpg 720w, /images/hero-plumber-1200.jpg 1200w, /images/hero-plumber-1500.jpg 1500w"
+      sizes="(max-width: 700px) 100vw, 72vw" width="1200" height="800" fetchpriority="high"
+      alt="Plumber in navy workwear adjusting a kitchen tap">
+  </div>
+  <div class="shell hero-inner">
+    <p class="eyebrow">Plumbing for everyday life</p>
+    <h1 id="hero-title"><span class="line"><span>Keep your</span></span> <span class="line"><span>home flowing.</span></span></h1>
+    <p class="hero-description">From troublesome taps to bigger plumbing jobs.</p>
+    <div class="actions">
+      <a class="button" href="/contact/#enquiry">Request a call-back</a>
+      <a class="button button-outline" href="/services/">Explore services</a>
+    </div>
+  </div>
+  <svg class="hero-pipe" aria-hidden="true" viewBox="0 0 260 90"><path pathLength="1" d="M-8 11h67a22 22 0 0 1 22 22v5a22 22 0 0 0 22 22h125a22 22 0 0 1 22 22v17"/></svg>
+</section>
+
+<div class="service-strip" data-marquee>
+  <ul class="shell" aria-label="Types of plumbing work">
+    <li>Repairs</li><li>Installations</li><li>Maintenance</li>
+  </ul>
+</div>
+
+<section class="section shell" id="services" aria-labelledby="services-title" tabindex="-1">
+  <div class="section-heading centered" data-reveal>
+    <h2 id="services-title">What can we help with?</h2>
+    <p>Find a starting point for the plumbing work you have in mind.</p>
+  </div>
+  <div class="service-grid">
+    $service_cards
+  </div>
+</section>
+
+<div class="feature-band">
+  <div class="shell feature-grid">
+    <section class="feature-card" data-reveal="left" id="projects" aria-labelledby="projects-title" tabindex="-1">
+      <img src="/images/project-kitchen-refresh-960.jpg" srcset="/images/project-kitchen-refresh-480.jpg 480w, /images/project-kitchen-refresh-960.jpg 960w"
+        sizes="(max-width: 519px) 92vw, (max-width: 959px) 46vw, (max-width: 1280px) 22vw, 270px" width="960" height="640" loading="lazy" decoding="async"
+        alt="Kitchen sink and mixer set into a pale stone worktop">
+      <div class="feature-content">
+        <p class="eyebrow">Our work</p>
+        <h2 id="projects-title">A kitchen mixer upgrade</h2>
+        <p>A fixture refresh starts with checking the existing fittings, sink clearance and reach of the new mixer.</p>
+        <a class="button button-secondary" href="/projects/#kitchen-mixer">Explore project examples</a>
+      </div>
+    </section>
+    <section class="feature-card" data-reveal="right" id="about" aria-labelledby="about-title" tabindex="-1">
+      <img src="/images/copperline-van-960.jpg" srcset="/images/copperline-van-480.jpg 480w, /images/copperline-van-960.jpg 960w"
+        sizes="(max-width: 519px) 92vw, (max-width: 959px) 46vw, (max-width: 1280px) 22vw, 270px" width="960" height="640" loading="lazy" decoding="async"
+        alt="Plumber carrying a tool bag beside a navy van at a house">
+      <div class="feature-content">
+        <p class="eyebrow">About Copperline</p>
+        <h2 id="about-title">Good plumbing starts with people.</h2>
+        <p>Our approach is simple. Listen first, explain the options clearly and take care around the spaces you use every day.</p>
+        <a class="button button-secondary" href="/about/#approach">Meet Copperline</a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<section class="section shell" id="process" aria-labelledby="process-title" tabindex="-1">
+  <div class="section-heading centered" data-reveal>
+    <h2 id="process-title">Our simple process.</h2>
+  </div>
+  <ol class="process-grid" role="list" data-flow>$process</ol>
+</section>
+
+<section class="contact" data-reveal="line" id="contact" aria-labelledby="contact-title" tabindex="-1">
+  <div class="shell contact-grid">
+    <div class="contact-intro" data-reveal="left">
+      <p class="eyebrow">Request a call-back</p>
+      <h2 id="contact-title">Tell us what needs attention.</h2>
+      <p>Describe the issue or the work you’re considering. Include your suburb so service availability can be discussed.</p>
+      <div class="faq">
+        <h3>A few useful answers</h3>
+        <details><summary>What details should I include?</summary><p>Start with the affected fixture or area, what you’re noticing and when it began.</p></details>
+        <details><summary>Can I enquire about an installation?</summary><p>Yes. Choose the relevant service and describe the fixture or system you’re considering.</p></details>
+        <details><summary>How do I check service availability?</summary><p>Include your suburb. Copperline’s coverage and appointment availability are pending confirmation.</p></details>
+      </div>
+    </div>
+    <div class="form-card" data-reveal="right" id="enquiry" role="region" aria-labelledby="enquiry-title" tabindex="-1">
+      <h3 id="enquiry-title">Call-back enquiry</h3>
+      <p id="demo-note">Demo form. Use sample details to try the enquiry. Nothing is sent or saved.</p>
+      <noscript><p>Enable JavaScript to try the demo form.</p></noscript>
+      <form id="enquiry-form" method="post" aria-describedby="demo-note">
+        <fieldset disabled>
+          <legend class="visually-hidden">Enquiry details</legend>
+          <div class="form-grid">
+            <label class="field">Name <input name="name" autocomplete="off" maxlength="100" required></label>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input name="phone" id="phone" type="tel" inputmode="tel" autocomplete="off" maxlength="24"
+                pattern="[+0-9\(\) .\-]{7,24}" aria-describedby="phone-hint" required>
+              <span id="phone-hint" class="field-hint">Use a sample number, e.g. 000 000 0000.</span>
+            </div>
+            <label class="field">Suburb <input name="suburb" autocomplete="off" maxlength="100" required></label>
+            <label class="field">Service
+              <select name="service" id="service" required>
+                <option value="">Select a service</option>
+                $service_options
+                <option value="other">I’m not sure</option>
+              </select>
+            </label>
+            <label class="field full-width">How can we help? <textarea name="message" rows="3" maxlength="1500" required></textarea></label>
+          </div>
+          <button class="button" type="submit">Test enquiry</button>
+        </fieldset>
+      </form>
+      <p class="form-result" id="enquiry-result" role="status" aria-atomic="true"></p>
+    </div>
+  </div>
+</section>

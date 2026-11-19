@@ -1,0 +1,87 @@
+$intro
+
+<section class="section shell contact-page-grid" aria-label="Contact details and enquiry">
+  <div class="form-card" data-reveal="left" id="enquiry" role="region" aria-labelledby="enquiry-title" tabindex="-1">
+    <h2 id="enquiry-title">Start an enquiry</h2>
+    <p id="demo-note"><strong>Demo form.</strong> Use sample details to try the enquiry. Your details and photo selections stay in this browser tab.</p>
+    <noscript><p>Enable JavaScript to try the demo form.</p></noscript>
+    <form id="enquiry-form" method="post" aria-describedby="demo-note">
+      <fieldset disabled>
+        <legend class="visually-hidden">Enquiry details</legend>
+        <div class="form-grid">
+          <label class="field">Full name <input name="name" autocomplete="off" maxlength="100" required></label>
+          <label class="field">Suburb <input name="suburb" autocomplete="off" maxlength="100" required></label>
+          <label class="field">Service needed
+            <select name="service" id="service" required>
+              <option value="">Select a service</option>
+              $service_options
+              <option value="other">I’m not sure</option>
+            </select>
+          </label>
+          <label class="field">Preferred contact method
+            <select name="method" aria-describedby="contact-method-hint" required>
+              <option value="">Select an option</option>
+              <option value="phone">Phone</option>
+              <option value="email">Email</option>
+            </select>
+          </label>
+          <p id="contact-method-hint" class="field-hint full-width">Provide a sample phone number or email address to match the method you choose.</p>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input name="phone" id="phone" type="tel" inputmode="tel" autocomplete="off" maxlength="24"
+              pattern="[+0-9\(\) .\-]{7,24}" aria-describedby="contact-method-hint">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input name="email" id="email" type="email" autocomplete="off" maxlength="254" aria-describedby="contact-method-hint">
+          </div>
+          <label class="field full-width">How can we help? <textarea name="message" rows="4" maxlength="1500" required></textarea></label>
+          <div class="photo-field full-width">
+            <label for="photos">Add photos <span class="field-hint">(optional)</span></label>
+            <input id="photos" name="photos" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple
+              aria-describedby="photo-hint photo-feedback">
+            <p class="field-hint" id="photo-hint">Select up to 3 JPG, PNG or WebP files, 5 MB each. Files are selected locally in this demo.</p>
+            <ul id="photo-list" class="photo-list" hidden></ul>
+            <p class="photo-feedback" id="photo-feedback" role="status"></p>
+            <button class="button button-secondary clear-photos" type="button" hidden>Clear photos</button>
+          </div>
+          <label class="consent full-width">
+            <input type="checkbox" name="consent" required>
+            <span>I agree to use these sample details to test the enquiry.</span>
+          </label>
+        </div>
+        <button class="button" type="submit">Test enquiry</button>
+      </fieldset>
+    </form>
+    <p class="form-result" id="enquiry-result" role="status" aria-atomic="true"></p>
+  </div>
+  <aside class="contact-aside" aria-label="Planning your enquiry">
+    <section class="info-card" data-reveal="right">
+      <h2>Service availability</h2>
+      <p>Include your suburb and the part of the property that needs attention. Service coverage is pending confirmation.</p>
+    </section>
+    <section class="info-card" data-reveal="right">
+      <h2>Prefer to speak directly?</h2>
+      <p>Copperline is a fictional website concept. Phone and email details are pending.</p>
+    </section>
+    <section class="contact-next" data-reveal="right" aria-labelledby="next-title">
+      <h2 id="next-title">What happens next?</h2>
+      <ol>
+        <li><strong>Share the details.</strong> Describe what you’re noticing and where.</li>
+        <li><strong>Discuss the options.</strong> A live enquiry would help clarify what needs checking.</li>
+        <li><strong>Plan a visit if needed.</strong> Times and access would be discussed once the scope is clearer.</li>
+      </ol>
+    </section>
+  </aside>
+</section>
+
+<section class="tinted-section" aria-labelledby="contact-faq-title">
+  <div class="shell faq-section">
+    <div class="section-heading" data-reveal><h2 id="contact-faq-title">Useful answers before you enquire.</h2></div>
+    <div class="disclosures">
+      <details data-reveal><summary>What should I include?</summary><p>Include the affected fitting or area, what you can see or hear, and roughly when it started.</p></details>
+      <details data-reveal><summary>Can I add photos?</summary><p>Yes. This preview lets you select sample photos from your device. The selection stays local and you can clear it at any time.</p></details>
+      <details data-reveal><summary>Can I enquire about a rental property?</summary><p>Yes. Use the description to indicate the property type and whether someone else needs to arrange access.</p></details>
+    </div>
+  </div>
+</section>

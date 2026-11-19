@@ -1,0 +1,58 @@
+$intro
+
+<section class="section shell projects-section" aria-labelledby="project-examples-title">
+  <div class="section-heading" data-reveal>
+    <h2 id="project-examples-title">Explore the examples.</h2>
+    <p class="project-notice">These illustrative examples show proposed work and outcomes.</p>
+  </div>
+  <div class="project-filters" role="group" aria-label="Filter project examples" hidden>
+    <button type="button" data-filter="all" aria-pressed="true">All</button>
+    <button type="button" data-filter="leaks" aria-pressed="false">Repairs</button>
+    <button type="button" data-filter="fixtures" aria-pressed="false">Fixtures</button>
+    <button type="button" data-filter="hot-water" aria-pressed="false">Hot water</button>
+    <button type="button" data-filter="drains" aria-pressed="false">Drains</button>
+  </div>
+  <p class="filter-result" role="status"></p>
+  <div class="projects-grid">$project_cards</div>
+</section>
+
+<section class="tinted-section" id="fixture-comparison" aria-labelledby="comparison-title" tabindex="-1">
+  <div class="shell comparison-section">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">Illustrative before and after</p>
+      <h2 id="comparison-title">A closer look at the mixer upgrade.</h2>
+      <p>The same kitchen with two different fittings. A taller spout can make it easier to fill larger pots if the clearance suits.</p>
+    </div>
+    <div class="comparison" data-comparison data-reveal="zoom">
+      <div class="comparison-images">
+        <figure class="comparison-before">
+          <img src="/images/project-kitchen-before-1200.jpg"
+            srcset="/images/project-kitchen-before-720.jpg 720w, /images/project-kitchen-before-1200.jpg 1200w"
+            sizes="(max-width: 740px) 92vw, 860px" width="1200" height="800" loading="lazy" decoding="async"
+            alt="Before study with a short chrome tap above the same kitchen sink">
+          <figcaption>Before · illustrative</figcaption>
+        </figure>
+        <figure class="comparison-after">
+          <img src="/images/project-kitchen-refresh-1200.jpg"
+            srcset="/images/project-kitchen-refresh-720.jpg 720w, /images/project-kitchen-refresh-1200.jpg 1200w"
+            sizes="(max-width: 740px) 92vw, 860px" width="1200" height="800" loading="lazy" decoding="async"
+            alt="After study with a taller brushed mixer above the same kitchen sink">
+          <figcaption>After · illustrative</figcaption>
+        </figure>
+        <div class="comparison-divider" aria-hidden="true"></div>
+      </div>
+      <div class="comparison-control" hidden>
+        <label for="compare-range">Compare the two fittings</label>
+        <p id="compare-hint">Move left to reveal more of the after view, or right for more of the before view.</p>
+        <input id="compare-range" type="range" min="0" max="100" step="5" value="50" aria-describedby="compare-hint">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-cta" data-reveal="line" aria-labelledby="project-cta-title">
+  <div class="shell page-cta-inner" data-reveal>
+    <div><h2 id="project-cta-title">Have a similar project in mind?</h2><p>Tell us about the space and what you’d like to change.</p></div>
+    <a class="button" href="/contact/#enquiry">Discuss your project</a>
+  </div>
+</section>

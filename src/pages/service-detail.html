@@ -1,0 +1,56 @@
+<section class="interior-banner service-hero" aria-labelledby="service-title">
+  <div class="interior-banner-media">
+    <img src="/images/$hero_image-1200.jpg"
+      srcset="/images/$hero_image-720.jpg 720w, /images/$hero_image-1200.jpg 1200w, /images/$hero_image-1500.jpg 1500w"
+      sizes="(max-width: 699px) 100vw, 68vw" width="1200" height="800" fetchpriority="high" alt="$hero_alt">
+  </div>
+  <div class="shell interior-banner-inner">
+    <p class="eyebrow">$name</p>
+    <h1 id="service-title">$headline</h1>
+    <p>$intro</p>
+    <a class="button" href="$enquiry">$action</a>
+  </div>
+</section>
+
+<section class="section shell service-overview" aria-labelledby="scope-title">
+  <div class="section-heading" data-reveal><h2 id="scope-title">What we can help with.</h2></div>
+  <ul class="scope-grid" role="list">$scope</ul>
+  <div class="detail-split service-feature">
+    <img src="/images/$detail_image-$detail_large.jpg" srcset="$detail_sources"
+      sizes="(max-width: 749px) 92vw, (max-width: 1300px) 46vw, 580px" width="$detail_large" height="$detail_height"
+      loading="lazy" decoding="async" alt="$detail_alt" data-reveal="wipe">
+    <div data-reveal="right"><h3>$detail_title</h3><p>$detail_copy</p></div>
+  </div>
+</section>
+
+<section class="tinted-section" aria-labelledby="service-prep-title">
+  <div class="shell split-section">
+    <div data-reveal="left"><h2 id="service-prep-title">$prep_title</h2></div>
+    <ul class="check-list" role="list">$prep</ul>
+  </div>
+</section>
+
+<section class="section shell" aria-labelledby="service-process-title">
+  <div class="section-heading" data-reveal><h2 id="service-process-title">$process_title</h2></div>
+  <ol class="process-grid" role="list" data-flow>$process</ol>
+</section>
+
+<div class="tinted-section">
+  <div class="shell service-resources">
+    <section aria-labelledby="service-faq-title">
+      <div class="section-heading" data-reveal><h2 id="service-faq-title">Frequently asked questions.</h2></div>
+      <div class="disclosures">$faqs</div>
+    </section>
+    <nav aria-labelledby="related-services-title">
+      <div class="section-heading" data-reveal><h2 id="related-services-title">Related services.</h2></div>
+      <ul class="related-services" role="list">$related</ul>
+    </nav>
+  </div>
+</div>
+
+<section class="page-cta" data-reveal="line" aria-labelledby="service-cta-title">
+  <div class="shell page-cta-inner" data-reveal>
+    <div><h2 id="service-cta-title">$cta_title</h2><p>$cta_copy</p></div>
+    <a class="button" href="$enquiry">Request a call-back</a>
+  </div>
+</section>

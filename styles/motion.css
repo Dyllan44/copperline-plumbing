@@ -1,0 +1,368 @@
+/*
+  Copperline motion system.
+  The theme is the copper line itself: it fills the header as you read, draws under headings,
+  flows through the process steps and runs along each call to action.
+
+  Everything is progressive. Scroll reveals only hide content when the head script has added
+  `.motion` (motion allowed + IntersectionObserver available), and motion.js must confirm it
+  started within 3s or the class is removed. Reduced-motion visitors get the static design.
+*/
+
+:root {
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-response: cubic-bezier(.25, .65, .3, 1);
+  --copper-gradient: linear-gradient(90deg, var(--copper), var(--copper-light));
+}
+
+/* ---------- Header: scroll progress + scrolled state (position cue, so it runs for everyone) ---------- */
+
+.scroll-progress {
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 3px;
+  background: var(--copper-gradient);
+  transform-origin: left;
+  scale: var(--scroll-progress, 0) 1;
+  pointer-events: none;
+}
+.site-header { transition: background-color .3s ease, box-shadow .3s ease; }
+.site-header[data-scrolled] {
+  background: rgb(255 255 255 / .9);
+  box-shadow: 0 8px 28px rgb(12 32 58 / .09);
+  backdrop-filter: blur(14px) saturate(1.4);
+}
+
+/* ---------- Service strip marquee (scroll-driven, never auto-plays) ---------- */
+
+.service-strip.has-marquee { position: relative; overflow: hidden; }
+.service-strip.has-marquee > ul {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.marquee-track { display: flex; width: max-content; padding-block: clamp(.8rem, 2vw, 1.15rem); translate: var(--strip-shift, 0) 0; }
+.marquee-group { display: flex; align-items: center; }
+.marquee-group span {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1.4rem, 3.5vw, 2.6rem);
+  padding-inline-end: clamp(1.4rem, 3.5vw, 2.6rem);
+  color: var(--navy);
+  font-size: clamp(1.25rem, 3.4vw, 2.1rem);
+  font-weight: 850;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.marquee-group span::after {
+  content: "";
+  width: .5em;
+  height: .5em;
+  border-radius: 50%;
+  background: var(--copper-gradient);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ---------- Page heroes: load choreography ---------- */
+
+  :is(.hero-media, .interior-banner-media, .photo-intro-media) { overflow: hidden; }
+  :is(.hero-media, .interior-banner-media, .photo-intro-media) img {
+    animation: photo-reveal 1.9s var(--ease-out) both;
+  }
+
+  :is(.hero-inner, .interior-banner-inner, .photo-intro-inner) > * {
+    animation: rise-in 1s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 110ms + 200ms);
+  }
+  :is(.hero-inner, .interior-banner-inner, .photo-intro-inner) > :nth-child(2) { --i: 1; }
+  :is(.hero-inner, .interior-banner-inner, .photo-intro-inner) > :nth-child(3) { --i: 3; }
+  :is(.hero-inner, .interior-banner-inner, .photo-intro-inner) > :nth-child(4) { --i: 4; }
+
+  :is(.interior-banner, .photo-intro) h1 { animation-name: title-rise; animation-duration: 1.2s; }
+
+  .hero h1 { animation: none; }
+  /* Extra room below each masked line so descenders (the g in "flowing") are not clipped. */
+  .hero h1 .line { display: block; overflow: clip; padding-block-end: .22em; margin-block-end: -.22em; }
+  .hero h1 .line > span { display: inline-block; animation: line-up 1.15s var(--ease-out) both; }
+  .hero h1 .line:nth-child(1) > span { animation-delay: .3s; }
+  .hero h1 .line:nth-child(2) > span { animation-delay: .42s; }
+
+  :is(.hero, .photo-intro) .eyebrow::after {
+    transform-origin: left center;
+    animation: rule-grow 1s var(--ease-out) .5s both;
+  }
+
+  .hero-pipe path {
+    stroke-dasharray: 1 1;
+    animation: pipe-draw 1.6s var(--ease-out) .9s both;
+  }
+
+  /* ---------- Interaction feedback ---------- */
+
+  :is(.button, .menu-toggle, .project-filters button) {
+    transition: translate .2s var(--ease-response), scale .16s var(--ease-response),
+      border-color .2s ease, background-color .2s ease, color .2s ease, box-shadow .25s ease;
+  }
+  :is(.button, .menu-toggle, .project-filters button):not(:disabled):active { scale: .97; }
+
+  .button { position: relative; isolation: isolate; overflow: hidden; }
+  .button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / .3) 50%, transparent 70%);
+    translate: -110% 0;
+  }
+  .button-secondary::after { background: linear-gradient(110deg, transparent 30%, rgb(255 147 71 / .35) 50%, transparent 70%); }
+
+  /* Services dropdown: panel drops in, copper line draws across, services follow one by one. */
+  .nav-item[data-open] .submenu { animation: submenu-in .4s var(--ease-out); }
+  .nav-item[data-open] .submenu::after { transform-origin: left; animation: rule-grow .8s var(--ease-out) .08s both; }
+  .nav-item[data-open] .submenu li { animation: submenu-item-in .5s var(--ease-out) both; }
+  .nav-item[data-open] .submenu li:nth-child(2) { animation-delay: .04s; }
+  .nav-item[data-open] .submenu li:nth-child(3) { animation-delay: .08s; }
+  .nav-item[data-open] .submenu li:nth-child(4) { animation-delay: .12s; }
+
+  :is(.faq, .disclosures) details[open] > p { animation: interface-arrive .35s var(--ease-out); }
+  :is(.faq, .disclosures) summary::after { transition: rotate .35s var(--ease-out); }
+  :is(.faq, .disclosures) details[open] summary::after { rotate: 180deg; }
+
+  @media (max-width: 760px) {
+    .site-header[data-menu-ready] .main-nav:not([hidden]):not(:focus-within) {
+      animation: interface-arrive .25s var(--ease-response);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .button:not(:disabled):hover { translate: 0 -2px; box-shadow: 0 10px 22px rgb(172 65 13 / .28); }
+    .button-secondary:not(:disabled):hover, .button-outline:not(:disabled):hover { box-shadow: 0 8px 20px rgb(8 25 45 / .2); }
+    .button:not(:disabled):active { translate: 0; }
+    .button:hover::after { translate: 110% 0; transition: translate .75s var(--ease-out); }
+  }
+}
+
+/* ---------- Scroll reveals (only when .motion is set) ---------- */
+
+.motion [data-reveal]:not(.reveal-done) {
+  transition:
+    opacity .9s var(--ease-out) var(--reveal-delay, 0ms),
+    translate 1.1s var(--ease-out) var(--reveal-delay, 0ms),
+    scale 1.1s var(--ease-out) var(--reveal-delay, 0ms),
+    clip-path 1.3s var(--ease-out) var(--reveal-delay, 0ms);
+}
+.motion [data-reveal]:not(.is-revealed) { opacity: 0; translate: 0 3.5rem; }
+.motion [data-reveal="left"]:not(.is-revealed) { translate: -3.5rem 0; }
+.motion [data-reveal="right"]:not(.is-revealed) { translate: 3.5rem 0; }
+.motion [data-reveal="zoom"]:not(.is-revealed) { translate: 0 2.5rem; scale: .9; }
+.motion [data-reveal="line"]:not(.is-revealed) { opacity: 1; translate: none; }
+
+.motion [data-reveal="wipe"] { clip-path: inset(0 0 0 0 round var(--radius)); }
+.motion [data-reveal="wipe"]:not(.is-revealed) { opacity: 1; translate: 1.5rem 0; clip-path: inset(0 100% 0 0 round var(--radius)); }
+
+/* Card photos settle from a push-in as the card arrives. */
+.motion :is(.service-card, .feature-card, .project-card)[data-reveal]:not(.reveal-done) img {
+  transition: scale 1.6s var(--ease-out) var(--reveal-delay, 0ms);
+}
+.motion :is(.service-card, .feature-card, .project-card)[data-reveal]:not(.is-revealed) img { scale: 1.3; }
+
+/* Heading rules draw in after the heading lands. */
+.motion .section-heading[data-reveal] h2::after { transform-origin: left; transition: scale 1s var(--ease-out) .35s; }
+.motion .section-heading.centered[data-reveal] h2::after { transform-origin: center; }
+.motion .section-heading[data-reveal]:not(.is-revealed) h2::after { scale: 0 1; }
+
+/* Copper line along the top of each dark call-to-action band. */
+.motion :is(.page-cta, .contact)[data-reveal="line"] { position: relative; }
+.motion :is(.page-cta, .contact)[data-reveal="line"]::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: var(--copper-gradient);
+  transform-origin: left;
+  transition: scale 1.6s var(--ease-out) .1s;
+}
+.motion :is(.page-cta, .contact)[data-reveal="line"]:not(.is-revealed)::before { scale: 0 1; }
+
+/* ---------- Hero parallax (motion.js sets --shift from 0 to 1 as the hero scrolls away) ---------- */
+
+.motion :is(.hero-media, .interior-banner-media, .photo-intro-media) { translate: 0 calc(var(--shift, 0) * 24%); }
+.motion :is(.hero-inner, .interior-banner-inner, .photo-intro-inner) {
+  translate: 0 calc(var(--shift, 0) * -4rem);
+  opacity: calc(1 - var(--shift, 0) * 1.3);
+}
+.motion .hero-pipe { translate: calc(var(--shift, 0) * 6rem) 0; }
+
+/* ---------- Process pipeline: a copper line fills as you scroll and lights each step ---------- */
+
+.motion .process-grid[data-flow] { position: relative; }
+.motion .process-grid[data-flow]::before,
+.motion .process-grid[data-flow]::after {
+  content: "";
+  position: absolute;
+  border-radius: 1rem;
+  pointer-events: none;
+}
+.motion .process-grid[data-flow]::before { background: var(--ice-strong); }
+.motion .process-grid[data-flow]::after { background: var(--copper-gradient); }
+.motion .process-grid[data-flow] > li { position: relative; }
+.motion .process-grid[data-flow] > li::before {
+  content: "";
+  position: absolute;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 3px solid var(--ice-strong);
+  border-radius: 50%;
+  background: var(--white);
+  transition: background-color .4s ease, border-color .4s ease, scale .5s var(--ease-out), box-shadow .5s ease;
+}
+.motion .process-grid[data-flow] > li.is-lit::before {
+  border-color: var(--copper-light);
+  background: var(--copper);
+  scale: 1.25;
+  box-shadow: 0 0 0 6px rgb(255 147 71 / .2);
+}
+.motion .process-grid[data-flow] .step-icon {
+  transition: background-color .45s ease, border-color .45s ease, color .45s ease, scale .6s var(--ease-out), rotate .6s var(--ease-out);
+}
+.motion .process-grid[data-flow] > li.is-lit .step-icon {
+  border-color: var(--copper);
+  background: var(--copper);
+  color: var(--white);
+  scale: 1.08;
+  rotate: -6deg;
+}
+
+@media (min-width: 701px) {
+  .motion .process-grid[data-flow] { padding-block-start: 2.5rem; }
+  .motion .process-grid[data-flow]::before,
+  .motion .process-grid[data-flow]::after { inset: .7rem 0 auto; height: 4px; }
+  .motion .process-grid[data-flow]::after { transform-origin: left; scale: var(--flow, 0) 1; }
+  .motion .process-grid[data-flow] > li::before { inset: -2.35rem auto auto 1.95rem; }
+}
+
+@media (max-width: 700px) {
+  .motion .process-grid[data-flow] { padding-inline-start: 2.1rem; }
+  .motion .process-grid[data-flow]::before,
+  .motion .process-grid[data-flow]::after { inset: 0 auto 0 .55rem; width: 4px; }
+  .motion .process-grid[data-flow]::after { transform-origin: top; scale: 1 var(--flow, 0); }
+  .motion .process-grid[data-flow] > li::before { inset: 1.95rem auto auto -2.1rem; }
+}
+
+/* ---------- Cards: tilt toward the pointer with a copper spotlight (fine pointers only) ---------- */
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .motion :is(.service-card, .feature-card, .project-card) {
+    position: relative;
+    transition: transform .6s var(--ease-out), box-shadow .45s ease, border-color .3s ease;
+  }
+  .motion :is(.service-card, .feature-card, .project-card):hover {
+    transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-6px);
+    border-color: #a4c0d5;
+    box-shadow: 0 26px 50px rgb(12 32 58 / .17);
+  }
+  .motion :is(.service-card, .feature-card, .project-card).reveal-done img { transition: scale 1.1s var(--ease-out); }
+  .motion :is(.service-card, .feature-card, .project-card):hover img { scale: 1.07; }
+  .motion :is(.service-card, .feature-card, .project-card)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(26rem circle at var(--mx, 50%) var(--my, 50%), rgb(255 147 71 / .16), transparent 45%);
+    opacity: 0;
+    transition: opacity .4s ease;
+    pointer-events: none;
+  }
+  .motion :is(.service-card, .feature-card, .project-card):hover::after { opacity: 1; }
+}
+
+/* ---------- Page transitions (cross-document View Transitions) ----------
+   Supporting browsers slide the old page out and the new one in while the header stays put.
+   Clicking a service card on Services morphs its photo into the next page's banner (see navigation.js
+   and the head script). Other browsers navigate normally. */
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+
+  .site-header { view-transition-name: site-header; }
+  .scroll-progress { view-transition-name: scroll-progress; }
+  .vt-morph :is(.interior-banner-media, .photo-intro-media, .hero-media) { view-transition-name: hero-photo; }
+
+  /* Arriving through a transition: the page slide is the motion, so the banner arrives already
+     composed (no second text build-up) and its photo only settles gently. */
+  .vt-arrived :is(.hero-inner, .interior-banner-inner, .photo-intro-inner) > *,
+  .vt-arrived .hero h1 .line > span,
+  .vt-arrived :is(.hero, .photo-intro) .eyebrow::after { animation: none; }
+  .vt-arrived :is(.hero-media, .interior-banner-media, .photo-intro-media) img { animation: photo-settle 1.2s var(--ease-out) both; }
+  /* The photo already arrived via the morph, so skip even the settle. */
+  .vt-morphed :is(.interior-banner-media, .photo-intro-media, .hero-media) img { animation: none; }
+
+  /* Old page leaves quickly, new page follows with a short rise: minimal overlap, no muddy double image. */
+  ::view-transition-old(root) { animation: page-out .2s cubic-bezier(.4, 0, 1, 1) both; }
+  ::view-transition-new(root) { animation: page-in .5s var(--ease-out) .18s both; }
+  ::view-transition-group(site-header) { animation-duration: .3s; }
+  ::view-transition-group(scroll-progress) { animation-duration: .5s; animation-timing-function: var(--ease-out); }
+  ::view-transition-group(hero-photo) { animation-duration: .8s; animation-timing-function: var(--ease-out); }
+  ::view-transition-old(hero-photo),
+  ::view-transition-new(hero-photo) { height: 100%; object-fit: cover; overflow: clip; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes photo-reveal {
+  from { scale: 1.2; filter: brightness(.55) saturate(.75); }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; translate: 0 1.75rem; }
+}
+
+@keyframes title-rise {
+  from { opacity: 0; translate: 0 .5em; clip-path: inset(0 0 100% 0); }
+  to { opacity: 1; translate: 0; clip-path: inset(-50% -10% -50% -10%); }
+}
+
+@keyframes line-up {
+  from { translate: 0 110%; rotate: 4deg; }
+}
+
+@keyframes rule-grow {
+  from { scale: 0 1; }
+}
+
+@keyframes pipe-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes page-out {
+  to { opacity: 0; translate: 0 -.75rem; }
+}
+
+@keyframes page-in {
+  from { opacity: 0; translate: 0 1.25rem; }
+}
+
+@keyframes photo-settle {
+  from { scale: 1.06; }
+}
+
+@keyframes submenu-in {
+  from { opacity: 0; transform: translateY(-.6rem); }
+}
+
+@keyframes submenu-item-in {
+  from { opacity: 0; transform: translateY(.5rem); }
+}
+
+@keyframes interface-arrive {
+  from { opacity: 0; translate: 0 -6px; }
+}
