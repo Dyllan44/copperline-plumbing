@@ -1,17 +1,19 @@
 # 031 — Copperline Plumbing website
 
-Phase 3 implements the nine-page Full House. Home, Services, Projects, About and Contact share a layout with four service detail pages. The Services overview links to each detail page. The header and breadcrumbs show the visitor’s location, and each service page passes its service into Contact.
+A nine-page static website concept for a fictional residential plumbing business: Home, Services, Projects, About, Contact and a dedicated page for each of the four services. It is built with Python's standard library, with no frameworks or dependencies.
 
-## Preview and build
+## Build and preview locally
 
-The current local review preview is [Copperline Plumbing](http://127.0.0.1:8311/). To rebuild and serve it, open a terminal in this folder and run these commands with Python 3.10 or newer.
+Use Python 3.10 or newer. Run these commands in this folder:
 
 ```powershell
 python build.py
 python -m http.server 8311 --bind 127.0.0.1 --directory dist
 ```
 
-Open the same preview address. Python builds the deployable static files in `dist/` using its standard library. Re-run the build after editing source files. The generated pages reference versioned CSS and JavaScript so browser reloads use the matching assets. Run these syntax checks with Node.js.
+Then open http://127.0.0.1:8311/. `build.py` clears and regenerates `dist/` on every run, so re-run it after editing source files. Generated pages reference CSS and JavaScript with content hashes (`?v=…`), so browsers always load the matching assets.
+
+Syntax-check the scripts with Node.js:
 
 ```powershell
 node --check scripts/navigation.js
@@ -20,36 +22,36 @@ node --check scripts/projects.js
 node --check scripts/motion.js
 ```
 
-## Source and images
+## Deploy on Vercel
 
-- [build.py](build.py) generates the nine routes from the [shared layout](src/layout.html), [page templates](src/pages/), [components](src/components/), [service and project data](src/content.py) and [dedicated service content](src/service_details.py). The service pages share one [detail template](src/pages/service-detail.html).
-- Projects, About and Contact share a [photo header component](src/components/photo-intro.html) with page-specific copy, crop and imagery. New photographic originals and prompts are in the [review asset record](../assets/review-header-image-prompts.md).
-- [base.css](styles/base.css) defines the shared palette, typography, buttons, navigation and service-card styles. The [styles folder](styles/) also contains Home, interior-page, Projects and enquiry styles.
-- [navigation.js](scripts/navigation.js) handles the responsive menu. [projects.js](scripts/projects.js) handles filters and the comparison slider. [enquiry.js](scripts/enquiry.js) handles service preselection, form validation and local photo selection.
-- Motion is built around the copper line. [motion.css](styles/motion.css) and [motion.js](scripts/motion.js) provide a header scroll-progress line, hero load choreography with line-by-line headline rise and photo parallax, a scroll-driven service marquee, staggered reveals (`data-reveal` = up, `left`, `right`, `zoom`, `wipe`, `line`), drawn heading rules, a process pipeline that fills and lights each step as you scroll (`data-flow`), copper lines on CTA bands, card tilt with a pointer spotlight, button shine, and a one-time guided sweep of the Projects comparison slider. [projects.js](scripts/projects.js) animates filtered cards.
-- The main navigation has a Services dropdown built from the [nav-services](src/components/nav-services.html) and [nav-service-item](src/components/nav-service-item.html) components, using each service's `teaser` in [content.py](src/content.py). The Services link still opens the overview page. A chevron button (or hover on desktop) opens the four service pages with thumbnails. Escape, clicking outside or tabbing away closes it. On mobile it expands inside the menu. The footer keeps the plain links. Thumbnails load lazily and start downloading when the visitor's pointer first enters the Services item.
-- Page transitions use cross-document View Transitions (`@view-transition` in motion.css). The old page lifts away while the new one slides up, and the header holds still. Clicking a card on Services morphs its photo into the service page banner: [navigation.js](scripts/navigation.js) names the card photo on `pageswap`, and the layout's head script names the receiving banner on `pagereveal`. Links with a `#hash` skip the morph because the banner would be off screen. Browsers without support, and visitors with reduced motion, navigate normally.
-- Motion is progressive. A head script adds `.motion` only when reduced motion is off and IntersectionObserver exists; if motion.js does not start within 3 seconds the class is removed. Without it, or with reduced motion, every element renders static and visible. Focusing into an unrevealed element reveals it immediately. The marquee only moves with scrolling, never on its own.
-- [images/](images/) contains responsive JPEGs and the brand mark. Reusable PNG originals and the [Home prompts](../assets/home-image-prompts.md), [Full Site prompts](../assets/full-site-image-prompts.md) and [Full House prompts](../assets/full-house-image-prompts.md) are in the concept’s [assets folder](../assets/).
+[vercel.json](vercel.json) configures the deployment. Vercel runs `python3 build.py`, publishes `dist/` and serves the pages at trailing-slash URLs such as `/services/`. No install step or environment variables are needed. Import this repository into a Vercel project, keep the framework preset as **Other**, and deploy. Every push to `main` then deploys automatically.
 
-## Verification
+## How the code is organised
 
-The Phase 3 build and three JavaScript syntax checks passed. All nine routes returned HTTP 200. The generated HTML resolved 406 local resources, fragments and accessibility references, including four overview links, 12 related-service routes and eight contextual enquiry links.
+- [build.py](build.py) generates the nine routes from the [shared layout](src/layout.html), [page templates](src/pages/), [components](src/components/), [service and project data](src/content.py) and [service page content](src/service_details.py). The four service pages share one [detail template](src/pages/service-detail.html).
+- [styles/](styles/) holds the CSS. [base.css](styles/base.css) defines the design tokens, typography, buttons, header, navigation and cards. The other files cover Home, interior pages, Projects, service pages, enquiry forms and motion.
+- [scripts/](scripts/) holds the JavaScript. [navigation.js](scripts/navigation.js) runs the mobile menu, the Services dropdown and the outgoing half of page transitions. [projects.js](scripts/projects.js) runs the project filters and the before/after slider. [enquiry.js](scripts/enquiry.js) runs service preselection, form validation and local photo selection. [motion.js](scripts/motion.js) runs the scroll effects.
+- [images/](images/) contains the responsive JPEGs and the brand mark.
 
-In Chromium, checked the four service pages at 320, 390, 768 and 1440 CSS pixels. Tested direct routes, active Services navigation, breadcrumbs, related-service navigation, keyboard FAQ disclosure and mobile menu focus. Both enquiry buttons on every new page selected the correct service in Contact. Both photos on each service page loaded, and the browser console showed no warnings or errors. See the [Drains desktop capture](../031-full-house-phase-3-drains-desktop.jpg) and [Fixtures mobile capture](../031-full-house-phase-3-fixtures-mobile.jpg).
+## Navigation
 
-During Phase 3 review, the four service pages adopted Home’s shared process cards and the six photo-led pages received a lighter mobile fade. Compared the original and revised mobile heroes at 390 CSS pixels, checked all six pages at 320, and verified the service card styles against Home at 1440. The Drains enquiry still preselected the correct service. See the [revised mobile hero](../031-full-house-revision-drains-mobile.jpg) and [shared process cards](../031-full-house-revision-process-cards.jpg).
+The Services link opens the overview page. The chevron button next to it, or hovering on desktop, opens a dropdown with the four service pages, each with a thumbnail and a short teaser from [content.py](src/content.py). Escape, clicking outside or tabbing away closes it. On mobile it expands inside the menu. The footer keeps plain links.
 
-The second review introduced softly squared secondary buttons and integrated photo headers on Projects, About and Contact. Verified the header images and mobile crops at 320, 390, 768 and 1440 CSS pixels. The secondary buttons retain 44-pixel targets and visible keyboard focus. Confirmed Contact preselection and the Projects filter. Static checks resolved 414 local references across all nine routes.
+## Motion
 
-The third review applied Home’s navy photo treatment to Projects, About and Contact and matched the Projects filter corners to the secondary buttons. Verified the existing hero photos and copy, all five filter controls and their colours, keyboard focus and selection, and the navy headers at 320, 390 and 1440 CSS pixels. See the [current Projects capture](../031-full-house-review-navy-projects.jpg).
+Motion is built around the copper line in the brand name:
 
-The [Phase 2 handoff](../README.md#phase-2-handoff) records the earlier Projects and Contact interaction checks. The [Phase 1 handoff](../README.md#phase-1-handoff) records the accepted mobile Home hero.
+- A scroll-progress line along the bottom of the header.
+- A hero load sequence: the photo zooms in, the headline rises line by line, and the copper pipe draws itself. The hero photo moves with a parallax effect as you scroll.
+- A service marquee that rotates on its own, speeds up while scrolling and pauses on hover.
+- Staggered scroll reveals, set with `data-reveal` (`up`, `left`, `right`, `zoom`, `wipe`, `line`). Section heading rules draw in.
+- A process pipeline that fills and lights each step as you scroll (`data-flow`).
+- Copper lines on call-to-action bands, card tilt with a pointer spotlight, a button shine, and a one-time guided sweep of the Projects comparison slider.
+- Page transitions using cross-document View Transitions. The old page lifts away, the new one rises in and the header holds still. On Services, a card's photo morphs into the service page banner.
 
-The Phase 4 motion pass was checked in Chromium on desktop and across the nine mobile routes at 390 CSS pixels. Verified the hero and copper-line entrance, live scroll reveals, menu focus and dismissal, FAQ feedback, immediate Projects filtering and Contact preselection. Script checks covered reduced-motion changes, focus interruption, anchor targets and browsers without the animation APIs.
+Motion is progressive. A head script adds `.motion` only when the visitor hasn't asked for reduced motion and the browser supports IntersectionObserver. If motion.js doesn't start within 3 seconds, the class is removed. Without it, every element renders static and visible. Keyboard focus reveals hidden content immediately, and anything already scrolled past is always shown. Browsers without View Transitions navigate normally.
 
-## Pending
+## Status and limitations
 
-The demo validates sample details in the browser and lets visitors select up to three JPG, PNG or WebP files, up to 5 MB each. Nothing is transmitted or stored by the site. Live handling requires an enquiry endpoint, email delivery, photo upload and storage integration, confirmed business contact and coverage details, and approved privacy and consent copy. Replace illustrative projects with authorised client material before presenting them as completed work.
-
-Phase 4 motion is ready for review. The wider experience audit and release-readiness work remain pending. Publication requires a separate request.
+- The enquiry forms are demos. They validate sample details in the browser, and nothing is sent or stored. A live version needs an enquiry endpoint, email delivery, photo upload and storage, confirmed contact and coverage details, and approved privacy and consent copy.
+- Copperline is a fictional concept. The project examples are illustrative, not completed client work. Replace them with authorised client material before presenting them as real projects.
